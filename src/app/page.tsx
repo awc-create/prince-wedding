@@ -13,12 +13,12 @@ export default function Home() {
         className="relative overflow-hidden"
         style={{ background: "linear-gradient(160deg, var(--hero-top) 0%, var(--hero-bottom) 100%)" }}
       >
-        <div className="relative mx-auto max-w-3xl px-6 py-20 text-center">
-          <span className="display inline-block rounded-full bg-white/10 px-4 py-1.5 text-[0.65rem] tracking-[0.16em] text-white/80">
+        <div className="relative mx-auto max-w-3xl px-6 py-16 text-center sm:py-20">
+          <span className="display mx-auto inline-block max-w-[280px] rounded-2xl bg-white/10 px-4 py-1.5 text-[0.62rem] leading-relaxed tracking-[0.14em] text-white/80 sm:max-w-none sm:rounded-full sm:text-[0.65rem] sm:tracking-[0.16em]">
             {wedding.tagline}
           </span>
 
-          <h1 className="script mt-6 text-5xl leading-tight text-white sm:text-6xl">
+          <h1 className="script mt-6 text-4xl leading-tight text-white sm:text-5xl md:text-6xl">
             {wedding.groom}
             <span className="mx-3 not-italic text-white/40">&amp;</span>
             {wedding.bride}
