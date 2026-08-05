@@ -27,7 +27,7 @@ export default function SiteNav() {
             return (
               <Link
                 key={link.href}
-                href={link.href}x
+                href={link.href}
                 className={`display pb-0.5 text-[0.68rem] tracking-[0.1em] text-ink transition-colors ${
                   active ? "border-b-2 border-red" : "border-b-2 border-transparent hover:text-red"
                 }`}
