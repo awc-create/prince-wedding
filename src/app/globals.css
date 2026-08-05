@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,14..72,500;1,14..72,600&family=Inter:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+:root {
+  /* Core neutrals — matches prince-foods-b2c cream/ink */
+  --cream: #f6f4ee;
+  --cream-2: #f2f1eb;
+  --ink: #171717;
+  --sage: #efece3;
+  --sage-dark: #55524a;
+  --blush: #fbe4e2;
+  --line: rgba(23, 23, 23, 0.1);
+
+  /* Brand accents pulled from the real Prince Foods logo */
+  --red: #ef4444;
+  --red-dark: #dc2626;
+  --olive: #6ca51c;
+  --olive-dark: #5a8d17;
+
+  /* Dark hero gradient, same as prince-foods-b2c's hero section */
+  --hero-top: #0d0d0d;
+  --hero-bottom: #1a1a1a;
+
+  /* Cards + radii, matching b2c's soft commerce-card system */
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --card-border: rgba(17, 24, 39, 0.08);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.06);
+  --shadow-1: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-cream-2: var(--cream-2);
+  --color-sage: var(--sage);
+  --color-sage-dark: var(--sage-dark);
+  --color-blush: var(--blush);
+  --color-ink: var(--ink);
+  --color-red: var(--red);
+  --color-red-dark: var(--red-dark);
+  --color-olive: var(--olive);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+.display {
+  font-family: "Oswald", sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.script {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.brand-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.divider {
+  width: 48px;
+  height: 2px;
+  background: var(--red);
+  margin: 1.6rem auto;
+}
+
+.timeline-item {
+  border-left: 1px solid var(--line);
+  padding: 0 0 1.8rem 1.4rem;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.gallery-ph {
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(108, 165, 28, 0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  color: var(--sage-dark);
+  font-size: 1.1rem;
+}

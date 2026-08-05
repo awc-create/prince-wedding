@@ -1,0 +1,10 @@
+project_type: node
+slug: wedding
+port: 3000
+db: none
+
+domains:
+  prod: wedding.prince-v.com
+
+deploy_targets:
+  main-hetz: hetzner
