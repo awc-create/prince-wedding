@@ -2,33 +2,33 @@
 @import "tailwindcss";
 
 :root {
-  /* Core neutrals — matches prince-foods-b2c cream/ink */
-  --cream: #f6f4ee;
-  --cream-2: #f2f1eb;
-  --ink: #171717;
-  --sage: #efece3;
-  --sage-dark: #55524a;
-  --blush: #fbe4e2;
-  --line: rgba(23, 23, 23, 0.1);
+  /* Core neutrals — warm, earthy paper/parchment tones */
+  --cream: #f7f1e6;
+  --cream-2: #efe4d1;
+  --ink: #2b2013;
+  --sage: #e7dbc3;
+  --sage-dark: #6b5940;
+  --blush: #ecdcc7;
+  --line: rgba(43, 32, 19, 0.12);
 
-  /* Brand accents pulled from the real Prince Foods logo */
-  --red: #ef4444;
-  --red-dark: #dc2626;
-  --olive: #6ca51c;
-  --olive-dark: #5a8d17;
+  /* Earthy accent used for buttons, dividers, active states */
+  --red: #a8492c;
+  --red-dark: #8a3a22;
+  --olive: #7c6a3f;
+  --olive-dark: #64542f;
 
-  /* Dark hero gradient, same as prince-foods-b2c's hero section */
-  --hero-top: #0d0d0d;
-  --hero-bottom: #1a1a1a;
+  /* Deep coffee-brown hero gradient (was near-black) */
+  --hero-top: #2a1d12;
+  --hero-bottom: #3d2a1a;
 
-  /* Cards + radii, matching b2c's soft commerce-card system */
-  --card-bg: rgba(255, 255, 255, 0.82);
-  --card-border: rgba(17, 24, 39, 0.08);
+  /* Cards + radii */
+  --card-bg: rgba(255, 252, 246, 0.85);
+  --card-border: rgba(43, 32, 19, 0.1);
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
-  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.06);
-  --shadow-1: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 6px 18px rgba(43, 32, 19, 0.08);
+  --shadow-1: 0 10px 30px rgba(43, 32, 19, 0.1);
 }
 
 @theme inline {
@@ -106,7 +106,7 @@ body {
 .gallery-ph {
   aspect-ratio: 1;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(108, 165, 28, 0.12));
+  background: linear-gradient(135deg, rgba(168, 73, 44, 0.12), rgba(124, 106, 63, 0.12));
   display: flex;
   align-items: center;
   justify-content: center;

@@ -2,11 +2,9 @@
 
 import { useState, FormEvent } from "react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { wedding } from "@/lib/wedding";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState("");
@@ -31,9 +29,11 @@ export default function LoginForm() {
         return;
       }
 
+      // Hard navigation (not router.push) so middleware re-checks the
+      // freshly-set cookie on a clean request instead of relying on the
+      // client router, which can otherwise appear to hang.
       const callbackUrl = searchParams.get("callbackUrl") || "/";
-      router.push(callbackUrl);
-      router.refresh();
+      window.location.href = callbackUrl;
     } catch {
       setError("Something went wrong — please try again.");
       setLoading(false);
@@ -43,14 +43,13 @@ export default function LoginForm() {
   return (
     <div className="brand-card w-full max-w-sm px-8 py-10 text-center">
       <Image
-        src="/brand/prince-foods-logo.png"
-        alt="Prince Foods"
-        width={120}
-        height={63}
-        className="mx-auto mb-5 h-8 w-auto"
+        src="/brand/jacob-angelie-logo.png"
+        alt="Jacob & Angelie"
+        width={1309}
+        height={711}
+        className="mx-auto mb-4 h-14 w-auto"
       />
-      <p className="display mb-1 text-[0.68rem] tracking-[0.2em] text-sage-dark">Private celebration</p>
-      <h1 className="script mb-3 text-3xl text-ink">{wedding.siteName}</h1>
+      <p className="display mb-5 text-[0.68rem] tracking-[0.2em] text-sage-dark">Private celebration</p>
       <p className="mb-5 text-[0.9rem] leading-6 text-sage-dark">
         Please enter the passcode from your invitation to view the site.
       </p>

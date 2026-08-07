@@ -9,17 +9,17 @@ export default function SiteNav() {
   const pathname = usePathname();
 
   return (
-    <div className="relative z-20 border-b border-black/[0.06] bg-white">
+    <div className="relative z-20 border-b border-black/[0.06] bg-cream">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-3">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center">
           <Image
-            src="/brand/prince-foods-logo.png"
-            alt="Prince Foods"
-            width={140}
-            height={74}
-            className="h-10 w-auto"
+            src="/brand/jacob-angelie-logo.png"
+            alt="Jacob & Angelie"
+            width={1309}
+            height={711}
+            className="h-12 w-auto"
+            priority
           />
-          <span className="display text-[0.7rem] tracking-[0.14em] text-ink">Jacob &amp; Angelie</span>
         </Link>
         <nav className="flex flex-wrap gap-x-5 gap-y-1">
           {navLinks.map((link) => {

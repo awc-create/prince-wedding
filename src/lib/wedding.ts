@@ -4,7 +4,7 @@
 export const wedding = {
   groom: "Jacob Varghese",
   bride: "Angelie Mae Alias",
-  tagline: "Prince Foods presents: a match made in the produce aisle",
+  tagline: "Together with our families",
   dateISO: "2026-10-30T13:00:00+08:00", // Friday, Oct 30 2026, 1:00 PM (Asia/Manila)
   dateDisplay: "Friday, October 30th, 2026",
   timeDisplay: "1:00 PM",
@@ -17,7 +17,6 @@ export const wedding = {
     ]
   },
   giftNote: "Your presence is the only gift we need. Please, no presents.",
-  stamp: "Freshly Picked · No Substitutions · Est. 10.30.2026",
   siteName: "Jacob & Angelie"
 };
 
