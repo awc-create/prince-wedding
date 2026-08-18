@@ -62,13 +62,15 @@ This repo is wired for the same repository-dispatch flow the other Prince Foods 
    slug: wedding
    port: 3000
    domains:
-     prod: wedding.prince-v.com
+     prod: jacobandangelieincebu.com
    deploy_targets:
      main-hetz: hetzner
    ```
-5. **DNS** — add a `wedding` subdomain record for `prince-v.com` pointing at the same Hetzner
-   host/reverse proxy the other sites use (Cloudflare, based on `CLOUDFLARE_DNS_API_TOKEN` in the
-   b2c env — the CICD pipeline may already automate this once the slug/domain above are picked up).
+5. **DNS** — `jacobandangelieincebu.com` is its own domain (not a `prince-v.com` subdomain), on
+   its own Cloudflare zone. The A record already points at the Hetzner host. The CICD pipeline's
+   `CF_DNS_API_TOKEN` needs access to *this* zone specifically — if it's a different Cloudflare
+   account/token than the one prince-v.com uses, the automated DNS step in `build.yml` will fail
+   with "No Cloudflare zone found" until that's sorted.
 6. **Environment variables on the server** — set the values from `.env.example` (with real
    `RESEND_API_KEY`, `SITE_PASSCODE`, etc.) wherever the CICD pipeline injects env vars for
    Hetzner deploys (same place b2c's are set).

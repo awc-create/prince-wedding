@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 
 const origins = [
@@ -41,7 +42,9 @@ const sightseeing = [
   },
   {
     area: "Bohol (nearby island)",
-    items: ["2-hour fast ferry from Cebu City Pier 1 — Chocolate Hills, tarsier sanctuary, Loboc River cruise and beaches. Easy overnight or long day trip."]
+    items: [
+      "2-hour fast ferry from Cebu City Pier 1 — Chocolate Hills, tarsier sanctuary, Loboc River cruise and beaches. We're heading over as a group after the wedding — see the Bohol page for the full plan."
+    ]
   },
   {
     area: "In and near Cebu City",
@@ -118,6 +121,21 @@ export default function TravelPage() {
         </p>
       </div>
 
+      <div className="brand-card mb-10 flex flex-wrap items-center justify-between gap-3 px-6 py-6 text-left">
+        <div>
+          <div className="display mb-1 text-[0.72rem] tracking-[0.1em] text-ink">Staying on after the wedding?</div>
+          <p className="text-[0.9rem] leading-6 text-sage-dark">
+            Join us for a few days in Bohol starting Sunday, 1 November.
+          </p>
+        </div>
+        <Link
+          href="/travel/bohol"
+          className="display shrink-0 rounded-[var(--radius-lg)] bg-red px-6 py-2.5 text-[0.68rem] tracking-[0.12em] text-white transition-colors hover:bg-red-dark"
+        >
+          See Bohol Plans
+        </Link>
+      </div>
+
       <p className="display mb-3 text-[0.68rem] tracking-[0.2em] text-sage-dark">The full guide</p>
 
       <Accordion title="Visa requirements">
@@ -181,13 +199,15 @@ export default function TravelPage() {
         </p>
       </Accordion>
 
-      <Accordion title="Airport to Cebu City">
+      <Accordion title="Transportation">
         <p>
-          CEB is about 14 km / 30–60 minutes from central Cebu City depending on traffic.{" "}
-          <strong className="text-ink">Grab</strong> is the most convenient way in — it accepts
-          foreign cards, is tracked, safe and reliable (download the app before you arrive), and
-          is also excellent for food deliveries once you&apos;re in Cebu. Avoid unofficial touts
-          inside the terminal.
+          CEB is about 14 km / 20–40 minutes from central Cebu City depending on traffic.{" "}
+          <strong className="text-ink">Grab</strong> is the most convenient option for airport
+          transfers and getting around — it accepts foreign cards, is tracked, safe and reliable.
+          For solo trips around the city, <strong className="text-ink">Move It</strong> is also
+          very useful; it&apos;s a motorcycle ride-hailing app and is generally faster and cheaper
+          than taking a Grab car, especially in heavy traffic. Download both apps before you
+          arrive. Avoid unofficial touts inside the terminal.
         </p>
       </Accordion>
 
@@ -262,14 +282,6 @@ export default function TravelPage() {
           ))}
         </ul>
       </Accordion>
-
-      <div className="brand-card mt-8 px-6 py-6">
-        <p className="text-[0.92rem] leading-6 text-sage-dark">
-          We&apos;ll share more details — exact reception venue, group transport, suggested hotels
-          and coordinated excursions — once everything is finalised. Questions about travel?
-          Reach out on the RSVP page and we&apos;ll help however we can.
-        </p>
-      </div>
     </PageShell>
   );
 }
