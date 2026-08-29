@@ -20,13 +20,7 @@ const days: { date: string; events: ItineraryEvent[] }[] = [
   },
   {
     date: "Thursday, 29 October 2026",
-    events: [
-      {
-        title: "Madhuram Veppu",
-        meta: "5:00 PM",
-        address: ["GrayPlace", "262 Guerillero, Lapu-Lapu City, 6015 Central Visayas, Philippines"]
-      }
-    ]
+    events: [{ title: "Madhuram Veppu", meta: "Venue & Time TBC" }]
   },
   {
     date: "Friday, 30 October 2026",
