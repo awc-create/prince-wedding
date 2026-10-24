@@ -36,5 +36,6 @@ export const navLinks = [
   { href: "/travel", label: "Travel" },
   { href: "/travel/bohol", label: "Bohol" },
   { href: "/dress-code", label: "Dress Code" },
+  { href: "/charity", label: "Charity" },
   { href: "/faq", label: "FAQ" }
 ];

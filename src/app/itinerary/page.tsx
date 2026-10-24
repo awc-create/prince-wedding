@@ -20,7 +20,13 @@ const days: { date: string; events: ItineraryEvent[] }[] = [
   },
   {
     date: "Thursday, 29 October 2026",
-    events: [{ title: "Madhuram Veppu", meta: "Venue & Time TBC" }]
+    events: [
+      {
+        title: "Madhuram Veppu",
+        meta: "5:00 PM",
+        address: ["Casa Pelaez Hotel and Residence", "R. Palma Street, Cebu City, Philippines"]
+      }
+    ]
   },
   {
     date: "Friday, 30 October 2026",
