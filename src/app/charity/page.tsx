@@ -34,14 +34,30 @@ export default function CharityPage() {
           </p>
         </div>
 
+        <div className="brand-card mb-6 px-6 py-6">
+          <p className="display mb-3 text-[0.72rem] tracking-[0.14em] text-red">Pay offline</p>
+          <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-[0.95rem]">
+            <dt className="font-medium text-ink">Account name</dt>
+            <dd>Samudra Charitable Trust</dd>
+            <dt className="font-medium text-ink">Account number</dt>
+            <dd>12590200002521</dd>
+            <dt className="font-medium text-ink">Bank</dt>
+            <dd>Federal Bank</dd>
+            <dt className="font-medium text-ink">IFSC code</dt>
+            <dd>FDRL0001259</dd>
+          </dl>
+          <p className="mt-3 text-[0.85rem] italic">FCRA account available.</p>
+        </div>
+
         <div className="text-center">
+          <p className="display mb-3 text-[0.72rem] tracking-[0.14em] text-red">Pay online</p>
           <a
             href="https://samudratheeram.org/donate-now/"
             target="_blank"
             rel="noreferrer"
             className="display inline-block rounded-[var(--radius-lg)] bg-red px-8 py-3 text-[0.72rem] tracking-[0.14em] text-white transition-colors hover:bg-red-dark"
           >
-            Learn more &amp; donate
+            Donate now
           </a>
         </div>
       </div>
