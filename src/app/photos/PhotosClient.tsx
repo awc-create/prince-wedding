@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { mediaEvents } from "@/lib/events";
 
-type Item = { key: string; name: string; size: number; isVideo: boolean; url: string; downloadUrl: string };
+type Item = { key: string; name: string; size: number; isVideo: boolean; caption: string; url: string; downloadUrl: string };
+type Pending = { id: number; file: File; caption: string };
 type Upload = { id: number; name: string; progress: number; status: "uploading" | "done" | "error"; error?: string };
 
 const SMALL_RETRIES = 3;
@@ -45,9 +46,9 @@ async function api(body: unknown) {
   return data;
 }
 
-async function uploadFile(event: string, file: File, onProgress: (pct: number) => void) {
+async function uploadFile(event: string, file: File, caption: string, onProgress: (pct: number) => void) {
   const type = file.type || (/\.(mp4|mov|m4v)$/i.test(file.name) ? "video/mp4" : "image/jpeg");
-  const start = await api({ action: "start", event, filename: file.name, contentType: type, size: file.size });
+  const start = await api({ action: "start", event, filename: file.name, contentType: type, size: file.size, caption });
 
   if (start.mode === "single") {
     await retry(() => putWithProgress(start.url, file, { "Content-Type": type }, (l) => onProgress((l / file.size) * 100)));
@@ -92,6 +93,7 @@ export default function PhotosClient() {
   const [items, setItems] = useState<Item[] | null>(null);
   const [listError, setListError] = useState("");
   const [uploads, setUploads] = useState<Upload[]>([]);
+  const [pending, setPending] = useState<Pending[]>([]);
   const [viewing, setViewing] = useState<number | null>(null);
   const [moving, setMoving] = useState(false);
   const touchX =useRef<number | null>(null);
@@ -116,18 +118,26 @@ export default function PhotosClient() {
     load(event);
   }, [event, load]);
 
-  async function onFiles(files: FileList | null) {
+  function pickFiles(files: FileList | null) {
     if (!files || !files.length) return;
-    const queue = Array.from(files).map((file) => ({ file, id: ++idRef.current }));
+    const added = Array.from(files).map((file) => ({ file, id: ++idRef.current, caption: "" }));
+    setPending((p) => [...p, ...added]);
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
+  async function startUploads() {
+    const queue = pending;
+    if (!queue.length) return;
+    setPending([]);
     setUploads((u) => [...queue.map(({ file, id }) => ({ id, name: file.name, progress: 0, status: "uploading" as const })), ...u]);
     const slug = event;
     let i = 0;
     async function run() {
       while (i < queue.length) {
-        const { file, id } = queue[i++];
+        const { file, id, caption } = queue[i++];
         const set = (patch: Partial<Upload>) => setUploads((u) => u.map((x) => (x.id === id ? { ...x, ...patch } : x)));
         try {
-          await uploadFile(slug, file, (p) => set({ progress: Math.min(99, p) }));
+          await uploadFile(slug, file, caption, (p) => set({ progress: Math.min(99, p) }));
           set({ progress: 100, status: "done" });
         } catch (e) {
           set({ status: "error", error: e instanceof Error ? e.message : "Failed" });
@@ -135,7 +145,6 @@ export default function PhotosClient() {
       }
     }
     await Promise.all([run(), run(), run()]);
-    if (inputRef.current) inputRef.current.value = "";
     load(slug);
   }
 
@@ -225,7 +234,7 @@ export default function PhotosClient() {
           accept="image/*,video/*"
           className="hidden"
           id="media-input"
-          onChange={(e) => onFiles(e.target.files)}
+          onChange={(e) => pickFiles(e.target.files)}
         />
         <label
           htmlFor="media-input"
@@ -234,6 +243,47 @@ export default function PhotosClient() {
           Upload photos &amp; videos
         </label>
         <p className="mt-3 text-[0.8rem] text-sage-dark">Any size. Keep this page open until uploads finish.</p>
+
+        {pending.length > 0 && (
+          <div className="mt-5 text-left">
+            <ul className="space-y-3">
+              {pending.map((p) => (
+                <li key={p.id} className="rounded-[var(--radius-md)] border border-black/10 bg-white/60 p-3">
+                  <div className="mb-2 flex items-center justify-between gap-3 text-[0.85rem]">
+                    <span className="truncate text-ink">{p.file.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => setPending((x) => x.filter((y) => y.id !== p.id))}
+                      className="shrink-0 text-red"
+                      aria-label={`Remove ${p.file.name}`}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <input
+                    value={p.caption}
+                    onChange={(e) => setPending((x) => x.map((y) => (y.id === p.id ? { ...y, caption: e.target.value } : y)))}
+                    maxLength={300}
+                    placeholder="Add a description (optional)"
+                    className="w-full rounded-[var(--radius-sm)] border border-black/15 bg-white/80 px-3 py-2 text-[0.9rem] text-ink outline-none focus:border-red"
+                  />
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 flex justify-center gap-4">
+              <button
+                type="button"
+                onClick={startUploads}
+                className="display rounded-[var(--radius-lg)] bg-red px-8 py-3 text-[0.72rem] tracking-[0.14em] text-white transition-colors hover:bg-red-dark"
+              >
+                Upload {pending.length} file{pending.length === 1 ? "" : "s"}
+              </button>
+              <button type="button" onClick={() => setPending([])} className="display text-[0.68rem] tracking-[0.12em] text-sage-dark">
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
 
         {uploads.length > 0 && (
           <ul className="mt-5 space-y-2 text-left">
@@ -285,6 +335,7 @@ export default function PhotosClient() {
                 <img src={item.url} alt={item.name} loading="lazy" className="h-full w-full object-cover" />
               )}
             </button>
+            {item.caption && <p className="px-3 pt-2 text-[0.85rem] leading-5 text-ink">{item.caption}</p>}
             <a
               href={item.downloadUrl}
               download={item.name}
@@ -363,6 +414,11 @@ export default function PhotosClient() {
                 onClick={(e) => e.stopPropagation()}
                 className="max-h-full max-w-full object-contain"
               />
+            )}
+            {items[viewing].caption && (
+              <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-6 pb-5 pt-10 text-center text-[1rem] leading-6 text-white">
+                {items[viewing].caption}
+              </p>
             )}
             {viewing > 0 && (
               <button

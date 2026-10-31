@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 const COOKIE_NAME = "wedding_unlocked";
 
 // Paths that must stay reachable without the passcode.
-const PUBLIC_PATHS = ["/login", "/api/unlock", "/favicon.ico"];
+const PUBLIC_PATHS = ["/login", "/api/unlock", "/favicon.ico", "/messages", "/api/messages"];
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

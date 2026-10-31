@@ -37,6 +37,7 @@ export const navLinks = [
   { href: "/travel/bohol", label: "Bohol" },
   { href: "/dress-code", label: "Dress Code" },
   { href: "/photos", label: "Photos" },
+  { href: "/messages", label: "Postcards" },
   { href: "/charity", label: "Charity" },
   { href: "/faq", label: "FAQ" }
 ];

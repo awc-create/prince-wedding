@@ -7,6 +7,7 @@ import { ROOT_PREFIX, getStorage } from "@/lib/storage";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const CAPTION_EXT = ".caption";
 const VIDEO_RE = /\.(mp4|mov|m4v|webm|avi|mkv|3gp)$/i;
 
 export async function GET(req: NextRequest) {
@@ -22,13 +23,18 @@ export async function GET(req: NextRequest) {
   }
   const { client, bucket } = storage;
 
+  const captionKeys = new Set<string>();
   const objects: { Key: string; Size: number; LastModified?: Date }[] = [];
   let token: string | undefined;
   do {
     const res = await client.send(
       new ListObjectsV2Command({ Bucket: bucket, Prefix: `${ROOT_PREFIX}/${event}/`, ContinuationToken: token })
     );
-    for (const o of res.Contents ?? []) if (o.Key && !o.Key.endsWith("/")) objects.push({ Key: o.Key, Size: o.Size ?? 0, LastModified: o.LastModified });
+    for (const o of res.Contents ?? []) {
+      if (!o.Key || o.Key.endsWith("/")) continue;
+      if (o.Key.endsWith(CAPTION_EXT)) captionKeys.add(o.Key);
+      else objects.push({ Key: o.Key, Size: o.Size ?? 0, LastModified: o.LastModified });
+    }
     token = res.IsTruncated ? res.NextContinuationToken : undefined;
   } while (token && objects.length < 5000);
 
@@ -37,6 +43,15 @@ export async function GET(req: NextRequest) {
   const items = await Promise.all(
     objects.map(async (o) => {
       const name = o.Key.split("/").pop()!.replace(/^\d+-[a-f0-9]{8}-/, "");
+      let caption = "";
+      if (captionKeys.has(o.Key + CAPTION_EXT)) {
+        try {
+          const c = await client.send(new GetObjectCommand({ Bucket: bucket, Key: o.Key + CAPTION_EXT }));
+          caption = ((await c.Body?.transformToString()) ?? "").trim();
+        } catch {
+          caption = "";
+        }
+      }
       const [url, downloadUrl] = await Promise.all([
         getSignedUrl(client, new GetObjectCommand({ Bucket: bucket, Key: o.Key }), { expiresIn: 3600 }),
         getSignedUrl(
@@ -49,7 +64,7 @@ export async function GET(req: NextRequest) {
           { expiresIn: 3600 }
         )
       ]);
-      return { key: o.Key, name, size: o.Size, isVideo: VIDEO_RE.test(name), url, downloadUrl };
+      return { key: o.Key, name, size: o.Size, isVideo: VIDEO_RE.test(name), caption, url, downloadUrl };
     })
   );
 

@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
 
     const key = `${ROOT_PREFIX}/${event}/${Date.now()}-${crypto.randomUUID().slice(0, 8)}-${safeName(filename)}`;
 
+    // Optional description, stored as a tiny sidecar object next to the file.
+    const caption = typeof body.caption === "string" ? body.caption.trim().slice(0, 300) : "";
+    if (caption) {
+      await client
+        .send(new PutObjectCommand({ Bucket: bucket, Key: `${key}.caption`, Body: caption, ContentType: "text/plain; charset=utf-8" }))
+        .catch((e) => console.error("caption save failed", e));
+    }
+
     if (size <= SINGLE_PUT_MAX) {
       const url = await getSignedUrl(client, new PutObjectCommand({ Bucket: bucket, Key: key, ContentType: type }), {
         expiresIn: 3600

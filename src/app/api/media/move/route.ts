@@ -41,6 +41,19 @@ export async function POST(req: NextRequest) {
       })
     );
     await client.send(new DeleteObjectCommand({ Bucket: bucket, Key: key }));
+    // carry the optional description along (ignore if there isn't one)
+    try {
+      await client.send(
+        new CopyObjectCommand({
+          Bucket: bucket,
+          CopySource: `${bucket}/${`${key}.caption`.split("/").map(encodeURIComponent).join("/")}`,
+          Key: `${newKey}.caption`
+        })
+      );
+      await client.send(new DeleteObjectCommand({ Bucket: bucket, Key: `${key}.caption` }));
+    } catch {
+      /* no caption */
+    }
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Could not move this file" }, { status: 500 });

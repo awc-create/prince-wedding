@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,14..72,500;1,14..72,600&family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Oswald:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,14..72,500;1,14..72,600&family=Inter:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -70,6 +70,61 @@ body {
   font-family: "Fraunces", serif;
   font-style: italic;
   font-weight: 500;
+}
+
+.hand {
+  font-family: "Caveat", cursive;
+  font-weight: 500;
+}
+
+/* ---- Postcards (guest messages) ---- */
+.postcard {
+  background: #fbf5e8;
+  border: 1px solid rgba(43, 32, 19, 0.14);
+  border-radius: 6px;
+  box-shadow: 0 8px 22px rgba(43, 32, 19, 0.12);
+}
+.postcard-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    rgba(43, 32, 19, 0.14) 31px,
+    rgba(43, 32, 19, 0.14) 32px
+  );
+  line-height: 32px;
+  background-position: 0 -1px;
+}
+.stamp {
+  width: 58px;
+  height: 70px;
+  padding: 5px;
+  background: #f1e3c8;
+  border: 2px dashed rgba(168, 73, 44, 0.55);
+  color: var(--red);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.postmark {
+  width: 74px;
+  height: 74px;
+  border: 2px solid rgba(43, 32, 19, 0.35);
+  border-radius: 9999px;
+  color: rgba(43, 32, 19, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.5rem;
+  line-height: 1.25;
+  transform: rotate(-14deg);
 }
 
 .brand-card {
