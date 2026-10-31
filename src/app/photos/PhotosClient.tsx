@@ -93,7 +93,8 @@ export default function PhotosClient() {
   const [listError, setListError] = useState("");
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [viewing, setViewing] = useState<number | null>(null);
-  const touchX = useRef<number | null>(null);
+  const [moving, setMoving] = useState(false);
+  const touchX =useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const idRef = useRef(0);
 
@@ -148,6 +149,26 @@ export default function PhotosClient() {
       a.click();
       a.remove();
       await new Promise((r) => setTimeout(r, 600));
+    }
+  }
+
+  async function moveItem(item: Item, toEvent: string) {
+    setMoving(true);
+    try {
+      const res = await fetch("/api/media/move", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key: item.key, toEvent })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Could not move");
+      setItems((prev) => (prev ? prev.filter((x) => x.key !== item.key) : prev));
+      setViewing(null);
+    } catch (e) {
+      setListError(e instanceof Error ? e.message : "Could not move");
+      setViewing(null);
+    } finally {
+      setMoving(false);
     }
   }
 
@@ -248,7 +269,7 @@ export default function PhotosClient() {
 
       {listError && <p className="mb-4 text-[0.9rem] text-red">{listError}</p>}
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
         {items?.map((item, idx) => (
           <div key={item.key} className="brand-card overflow-hidden">
             <button type="button" onClick={() => setViewing(idx)} className="relative block aspect-square w-full bg-black/5">
@@ -291,7 +312,25 @@ export default function PhotosClient() {
             <span className="display text-[0.7rem] tracking-[0.12em]">
               {viewing + 1} / {items.length}
             </span>
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4 sm:gap-5">
+              <select
+                aria-label="Move to another event"
+                value=""
+                disabled={moving}
+                onChange={(e) => e.target.value && moveItem(items[viewing], e.target.value)}
+                className="max-w-[9rem] rounded border border-white/30 bg-transparent px-2 py-1 text-[0.7rem] text-white"
+              >
+                <option value="" className="text-black">
+                  {moving ? "Moving…" : "Move to…"}
+                </option>
+                {mediaEvents
+                  .filter((e) => e.slug !== event)
+                  .map((e) => (
+                    <option key={e.slug} value={e.slug} className="text-black">
+                      {e.label}
+                    </option>
+                  ))}
+              </select>
               <a
                 href={items[viewing].downloadUrl}
                 download={items[viewing].name}

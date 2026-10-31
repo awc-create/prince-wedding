@@ -3,7 +3,7 @@ import PhotosClient from "./PhotosClient";
 
 export default function PhotosPage() {
   return (
-    <PageShell>
+    <PageShell wide>
       <p className="display mb-2 text-[0.68rem] tracking-[0.2em] text-sage-dark">Shared memories</p>
       <h2 className="script text-4xl text-ink">Photos &amp; Videos</h2>
       <div className="divider" />
