@@ -6,9 +6,9 @@ export const wedding = {
   bride: "Angelie Mae Alias",
   tagline: "Join us together with our families",
   dateISO: "2026-10-30T13:00:00+08:00", // Friday, Oct 30 2026, 1:00 PM (Asia/Manila)
+  marriedISO: "2026-10-30T13:50:00+08:00", // approx. moment they were married (Asia/Manila)
   dateDisplay: "Friday, October 30th, 2026",
   timeDisplay: "1:00 PM",
-  rsvpBy: "September 30, 2026",
   venue: {
     name: "Shrine of St. Pedro Calungsod",
     lines: [
@@ -36,6 +36,7 @@ export const navLinks = [
   { href: "/travel", label: "Travel" },
   { href: "/travel/bohol", label: "Bohol" },
   { href: "/dress-code", label: "Dress Code" },
+  { href: "/photos", label: "Photos" },
   { href: "/charity", label: "Charity" },
   { href: "/faq", label: "FAQ" }
 ];

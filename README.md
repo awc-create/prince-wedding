@@ -5,8 +5,7 @@ the same stack and deploy pattern as `prince-foods-b2c` / `prince-foods-b2b`: Ne
 React 19, TypeScript, Tailwind v4, Docker standalone build, deployed to Hetzner through the
 shared `multi-site-hetz-cicd` pipeline.
 
-No database — RSVPs are emailed via Resend instead of stored in Postgres, since this is a
-one-off site rather than an ongoing product.
+No database — guest photos/videos live in Hetzner Object Storage (see `/photos`).
 
 ## Local development
 
@@ -22,16 +21,7 @@ instead of individual logins, via `middleware.ts` + `/login` + `/api/unlock`.
 
 ## Editing content
 
-Everything specific to the couple/venue lives in one file: `src/lib/wedding.ts`. Photos go in
-`/public/gallery` (swap into `src/app/gallery/page.tsx`). Wedding party names go in
-`src/app/wedding-party/page.tsx`. Our Story timeline is in `src/app/our-story/page.tsx`.
-
-## RSVP emails
-
-`POST /api/rsvp` sends an email via Resend to `RSVP_NOTIFY_TO` whenever someone submits the form.
-Requires `RESEND_API_KEY`, `EMAIL_FROM`, and `RSVP_NOTIFY_TO` to be set — until they are, RSVPs
-still show a "thank you" confirmation to the guest, but nothing gets emailed (this is logged as a
-warning server-side, so it's easy to notice before launch).
+Everything specific to the couple/venue lives in one file: `src/lib/wedding.ts`. Entourage is in `src/app/entourage/page.tsx`, the itinerary in `src/app/itinerary/page.tsx`.
 
 ## Deploying to Hetzner (same pattern as prince-foods-b2c)
 
@@ -72,7 +62,7 @@ This repo is wired for the same repository-dispatch flow the other Prince Foods 
    account/token than the one prince-v.com uses, the automated DNS step in `build.yml` will fail
    with "No Cloudflare zone found" until that's sorted.
 6. **Environment variables on the server** — set the values from `.env.example` (with real
-   `RESEND_API_KEY`, `SITE_PASSCODE`, etc.) wherever the CICD pipeline injects env vars for
+   `HETZNER_S3_*`, `SITE_PASSCODE`, etc.) wherever the CICD pipeline injects env vars for
    Hetzner deploys (same place b2c's are set).
 
 I don't have push access to your GitHub org or your Hetzner/CICD systems, so steps 1, 3, 4, 5 and
