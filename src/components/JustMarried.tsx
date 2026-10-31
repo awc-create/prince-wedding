@@ -26,14 +26,25 @@ function Animation({ onClose }: { onClose: () => void }) {
     >
       {hasPhoto && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={PHOTO}
-          alt="Jacob & Angelie on their wedding day"
-          onError={() => setHasPhoto(false)}
-          className="married-photo absolute inset-0 h-full w-full object-cover object-top"
-        />
+        <>
+          {/* Soft blurred copy fills the sides so the full photo can show uncropped */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={PHOTO}
+            alt=""
+            aria-hidden
+            className="married-backdrop absolute inset-0 h-full w-full scale-110 object-cover blur-2xl brightness-50"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={PHOTO}
+            alt="Jacob & Angelie on their wedding day"
+            onError={() => setHasPhoto(false)}
+            className="married-photo absolute inset-0 h-full w-full object-contain"
+          />
+        </>
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/5" />
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-6 pb-14 text-center sm:pb-20">
         <svg
