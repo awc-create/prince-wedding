@@ -120,9 +120,10 @@ export default function MessagesClient() {
       {/* Write a postcard (modal) */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 px-4 py-10"
+          className="fixed inset-0 z-50 overflow-y-auto bg-black/60"
           onClick={() => !sending && setOpen(false)}
         >
+          <div className="flex min-h-full items-center justify-center px-4 py-16">
           <div className="relative w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
             <button
               type="button"
@@ -189,6 +190,7 @@ export default function MessagesClient() {
           </button>
         </div>
       </form>
+          </div>
           </div>
         </div>
       )}
